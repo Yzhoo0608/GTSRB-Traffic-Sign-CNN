@@ -1,7 +1,3 @@
-# GTSRB Traffic Sign CNN
-
-[![GitHub](https://img.shields.io/badge/GitHub-GTSRB--Traffic--Sign--CNN-black?logo=github)](https://github.com/Yzhoo0608/GTSRB-Traffic-Sign-CNN)
-
 ## GTSRB Traffic Sign Recognition Using CNN
 
 ### Overview
