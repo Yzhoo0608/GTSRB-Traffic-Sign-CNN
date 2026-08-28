@@ -1,160 +1,142 @@
-# GTSRB-Traffic-Sign-CNN
-GTSRB Traffic Sign Recognition Using CNN
+# GTSRB Traffic Sign CNN
 
-Overview
+[![GitHub](https://img.shields.io/badge/GitHub-GTSRB--Traffic--Sign--CNN-black?logo=github)](https://github.com/Yzhoo0608/GTSRB-Traffic-Sign-CNN)
 
-This project implements a Convolutional Neural Network (CNN) for
-multi-class traffic sign recognition using the German Traffic Sign
-Recognition Benchmark (GTSRB) dataset.
+## GTSRB Traffic Sign Recognition Using CNN
 
-The notebook covers the complete workflow from dataset setup and
-preprocessing to CNN training, model evaluation, confusion-matrix
-analysis, test-image prediction, and visualization of learned filters
-and feature maps.
+### Overview
 
-Dataset
+This project implements a **Convolutional Neural Network (CNN)** for multi-class traffic sign recognition using the **German Traffic Sign Recognition Benchmark (GTSRB)** dataset.
 
-The project uses the preprocessed GTSRB dataset published on Kaggle by
-Valentyn Sichkar:
+The notebook covers the complete workflow from dataset setup and preprocessing to CNN training, model evaluation, confusion-matrix analysis, test-image prediction, and visualization of learned filters and feature maps.
 
-Dataset: Traffic Signs Preprocessed
+---
 
-Source: Kaggle
+## Dataset
 
-Classes: 43 traffic sign categories
+The project uses the preprocessed GTSRB dataset published on Kaggle by **Valentyn Sichkar**.
 
-Training samples: 34,799
+* **Dataset:** Traffic Signs Preprocessed
+* **Source:** Kaggle
+* **Classes:** 43 traffic sign categories
+* **Training samples:** 34,799
+* **Validation samples:** 4,410
+* **Test samples:** 12,630
 
-Validation samples: 4,410
+The dataset is loaded from:
 
-Test samples: 12,630
+* `train.pickle`
+* `valid.pickle`
+* `test.pickle`
 
-The dataset is loaded from train.pickle, valid.pickle, and
-test.pickle, with class names provided by label_names.csv.
+Class names are provided by `label_names.csv`.
 
-Data Preprocessing
+---
+
+## Data Preprocessing
 
 The notebook performs the following preprocessing steps:
 
-Sets random seeds to support reproducibility.
+* Sets random seeds to support reproducibility.
+* Loads the training, validation, and test data from pickle files.
+* Normalizes image pixel values from **0–255** to the range **0–1**.
+* Resizes images to **48 × 48 pixels**.
+* Converts class labels to one-hot encoded vectors.
+* Maps class IDs to readable traffic sign names.
+* Examines the test-set class distribution.
 
-Loads the training, validation, and test data from pickle files.
+### Dataset Shapes
 
-Normalizes image pixel values from 0--255 to the range 0--1.
+| Dataset    |               Images |      Labels |
+| ---------- | -------------------: | ----------: |
+| Training   | 34,799 × 48 × 48 × 3 | 34,799 × 43 |
+| Validation |  4,410 × 48 × 48 × 3 |  4,410 × 43 |
+| Test       | 12,630 × 48 × 48 × 3 | 12,630 × 43 |
 
-Resizes images to 48 × 48 pixels.
+---
 
-Converts class labels to one-hot encoded vectors.
+## CNN Architecture
 
-Maps class IDs to readable traffic sign names.
+The CNN consists of three convolutional blocks followed by fully connected layers.
 
-Examines the test-set class distribution.
+| Layer        | Configuration                   |
+| ------------ | ------------------------------- |
+| Conv2D       | 32 filters, 3 × 3 kernel, ReLU  |
+| MaxPooling2D | 2 × 2                           |
+| Conv2D       | 64 filters, 3 × 3 kernel, ReLU  |
+| MaxPooling2D | 2 × 2                           |
+| Conv2D       | 128 filters, 3 × 3 kernel, ReLU |
+| MaxPooling2D | 2 × 2                           |
+| Flatten      | —                               |
+| Dense        | 128 units, ReLU                 |
+| Dropout      | 0.5                             |
+| Dense        | 43 units, Softmax               |
 
-Dataset Shapes
+The model contains **361,067 trainable parameters**.
 
-Dataset                      Images        Labels
+### Compilation
 
-Training       34,799 × 48 × 48 × 3   34,799 × 43
-Validation      4,410 × 48 × 48 × 3    4,410 × 43
-Test           12,630 × 48 × 48 × 3   12,630 × 43
+* **Optimizer:** Adam
+* **Loss:** Categorical Cross-Entropy
+* **Metric:** Accuracy
 
-CNN Architecture
+---
 
-The CNN consists of three convolutional blocks followed by fully
-connected layers:
+## Training
 
-Conv2D --- 32 filters, 3 × 3 kernel, ReLU
+The model is trained with the following configuration:
 
-MaxPooling2D --- 2 × 2
+* **Epochs:** Up to 20
+* **Batch size:** 64
+* **Shuffle:** Enabled
+* **Early stopping:** Enabled
+* **Monitor:** Validation loss
+* **Patience:** 5 epochs
+* **Restore best weights:** Enabled
 
-Conv2D --- 64 filters, 3 × 3 kernel, ReLU
+The training process records both training and validation accuracy and loss for analysis.
 
-MaxPooling2D --- 2 × 2
+---
 
-Conv2D --- 128 filters, 3 × 3 kernel, ReLU
-
-MaxPooling2D --- 2 × 2
-
-Flatten
-
-Dense --- 128 units, ReLU
-
-Dropout --- 0.5
-
-Dense --- 43 units, Softmax
-
-The model contains 361,067 trainable parameters.
-
-Compilation
-
-Optimizer: Adam
-
-Loss: Categorical Cross-Entropy
-
-Metric: Accuracy
-
-Training
-
-The model is trained with:
-
-Epochs: Up to 20
-
-Batch size: 64
-
-Shuffle: Enabled
-
-Early stopping: Enabled
-
-Early stopping monitor: Validation loss
-
-Patience: 5 epochs
-
-Restore best weights: Enabled
-
-The training process records both training and validation accuracy/loss
-for analysis.
-
-Results
+## Results
 
 The trained CNN achieved:
 
-Test Accuracy: 95.82%
-
-Test Loss: 0.2137
+| Metric            |     Result |
+| ----------------- | ---------: |
+| **Test Accuracy** | **95.82%** |
+| **Test Loss**     | **0.2137** |
 
 The notebook also generates:
 
-Training vs. validation accuracy curves
+* Training vs. validation accuracy curves
+* Training vs. validation loss curves
+* 43-class confusion matrix
+* Misclassification-only confusion matrix
+* Per-class misclassification counts
+* Classification report with precision, recall, and F1-score
+* Random test-image predictions
+* CNN filter visualizations
+* CNN feature-map visualizations
 
-Training vs. validation loss curves
+---
 
-A 43-class confusion matrix
-
-A misclassification-only confusion matrix
-
-Per-class misclassification counts
-
-A classification report containing precision, recall, and F1-score
-
-Random test-image predictions
-
-CNN filter visualizations
-
-CNN feature-map visualizations
-
-Model Files
+## Model Files
 
 The notebook saves the trained model in two formats:
 
+```text
 traffic_sign_cnn.keras
-
 traffic_sign_cnn.h5
+```
 
-The native .keras format is the preferred format in current Keras
-versions, while the .h5 file is also generated for compatibility.
+The native `.keras` format is the preferred format in current Keras versions, while the `.h5` file is also generated for compatibility.
 
-Project Workflow
+---
 
+## Project Workflow
+
+```text
 GTSRB Dataset
       ↓
 Dataset Setup
@@ -176,33 +158,49 @@ Test Evaluation
 Confusion Matrix & Classification Report
       ↓
 Prediction & Feature Visualization
+```
 
-Notebook
+---
+
+## Notebook
 
 The complete implementation is provided in:
 
+```text
 Project2_GTSRB_CNN.ipynb
+```
 
-The notebook is designed to run in Google Colab and includes the
-dataset download/setup, preprocessing, model training, evaluation, and
-visualization steps.
+The notebook is designed to run in **Google Colab** and includes:
 
-Technologies Used
+* Dataset download and setup
+* Data preprocessing
+* CNN model construction
+* Model training
+* Model evaluation
+* Confusion matrix analysis
+* Classification report
+* Test-image predictions
+* Filter visualization
+* Feature-map visualization
 
-Python
+---
 
-TensorFlow / Keras
+## Technologies Used
 
-NumPy
+* **Python**
+* **TensorFlow / Keras**
+* **NumPy**
+* **Pandas**
+* **Matplotlib**
+* **Seaborn**
+* **Scikit-learn**
+* **Google Colab**
+* **Kaggle API**
 
-Pandas
+---
 
-Matplotlib
+## Author
+**Hoo Yen Zhi**
 
-Seaborn
 
-Scikit-learn
 
-Google Colab
-
-Kaggle API
