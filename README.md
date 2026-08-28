@@ -193,10 +193,6 @@ The notebook is designed to run in **Google Colab** and includes:
 * **Google Colab**
 * **Kaggle API**
 
----
-
-## Author
-**Hoo Yen Zhi**
 
 
 
