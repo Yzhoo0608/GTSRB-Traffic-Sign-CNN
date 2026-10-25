@@ -1,4 +1,4 @@
-## GTSRB Traffic Sign Recognition Using CNNs
+## GTSRB Traffic Sign Recognition Using CNN
 
 ### Overview
 
